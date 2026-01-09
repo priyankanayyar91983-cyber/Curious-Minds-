@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curious Minds - by Sarthak Nayyar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #0a0a0a 100%);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveGrid 20s linear infinite;
+        }
+
+        @keyframes moveGrid {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Glassmorphism header */
+        header {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .header-content {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3)); }
+            50% { filter: drop-shadow(0 0 40px rgba(240, 147, 251, 0.5)); }
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 0.8rem;
+        }
+
+        .author-tag {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        /* Premium hero section */
+        .hero {
+            padding: 8rem 0 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Premium posts grid */
+        .main-content {
+            padding: 4rem 0 6rem;
+        }
+
+        .posts {
+            display: grid;
+            gap: 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(240, 147, 251, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-12px) scale(1.01);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .post-card:hover::before {
+            opacity: 1;
+        }
+
+        .post-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: movePattern 15s linear infinite;
+        }
+
+        @keyframes movePattern {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(30px, 30px) rotate(360deg); }
+        }
+
+        .post-content {
+            padding: 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            flex-wrap: wrap;
+        }
+
+        .post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            color: #ffffff;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        .post-excerpt {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .read-more::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .read-more:hover::before {
+            left: 100%;
+        }
+
+        .read-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        /* Premium modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 850px;
+            margin: 4rem auto;
+            padding: 3.5rem;
+            border-radius: 24px;
+            position: relative;
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .article-content {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.85);
+            white-space: pre-wrap;
+        }
+
+        .modal .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .modal .post-image {
+            height: 250px;
+            border-radius: 16px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Premium footer */
+        footer {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .post-content {
+                padding: 2rem;
+            }
+            .post-title {
+                font-size: 1.6rem;
+            }
+            .modal-content {
+                margin: 2rem 1rem;
+                padding: 2.5rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🧠 Curious Minds</h1>
+                <p class="author-tag">by Sarthak Nayyar</p>
+                <p class="tagline">Explore • Learn • Discover</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h2>Feed Your Curiosity</h2>
+            <p>Journey through the cosmos of ideas, where science meets wonder and knowledge illuminates the universe</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="posts" id="postsContainer"></div>
+        </div>
+    </div>
+
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Curious Minds by Sarthak Nayyar. All rights reserved.</p>
+            <p style="margin-top: 0.8rem;">Exploring the mysteries of the universe, one article at a time</p>
+        </div>
+    </footer>
+
+    <script>
+        const posts = [
+            {
+                id: 1,
+                title: "Welcome to Curious Minds!",
+                excerpt: "Your journey into fascinating ideas begins here. Explore thought-provoking articles about science, the universe, and the mysteries that surround us.",
+                content: "Welcome to Curious Minds! This is a space dedicated to exploring the wonders of science and the universe. Here you'll find articles that explain complex concepts in simple, accessible language. Whether you're curious about space, time, physics, or the nature of reality itself, this blog aims to satisfy your curiosity and expand your understanding of the world around us. Each article is written to be easy to understand while maintaining scientific accuracy. Thank you for joining me on this journey of discovery!",
+                category: "culture",
+                icon: "👋",
+                author: "Sarthak Nayyar",
+                date: "Jan 9, 2026"
+            },
+            {
+                id: 2,
+                title: "Why Is the Sky Dark at Night?",
+                excerpt: "If the universe is filled with billions of stars, why isn't the entire night sky bright? Discover the fascinating answer to this cosmic mystery.",
+                content: "When we look up at the night sky, it appears mostly dark, with only a few bright points of light coming from stars. This feels normal to us, but if we stop and think about it, it becomes a very interesting question. The universe contains billions of stars and galaxies. If there are so many stars in every direction, then why isn't the entire night sky bright? Why do we see darkness instead of light everywhere?\n\nAt first, it seems logical to expect the sky to be bright. If the universe were filled with stars in all directions, then no matter where we looked, our eyes should eventually land on the surface of a star. In that case, the sky should glow continuously, just like the surface of the Sun. This idea confused scientists for a long time and became a famous problem in astronomy.\n\nThe main reason the sky is dark at night is that the universe is not infinitely old. The universe had a beginning, often called the Big Bang, which happened about 13.8 billion years ago. Light takes time to travel through space. This means we can only see light from stars and galaxies whose light has had enough time to reach Earth. There are many stars that are so far away that their light has not reached us yet. Because of this, large parts of the sky remain dark.\n\nAnother important reason is that the universe is expanding. As the universe expands, distant galaxies move away from us. The light coming from very far galaxies gets stretched as it travels through space. This stretching reduces the energy of the light, making it weaker and sometimes invisible to our eyes. As a result, even though stars exist in those regions, their light does not brighten the night sky.\n\nDust and gas in space also play a small role. Some light from distant stars is absorbed or scattered by interstellar matter before it reaches us. However, this is not the main reason for the dark sky. The biggest reasons are the finite age of the universe and the expansion of space itself.\n\nThis question is sometimes called Olbers' Paradox, named after a scientist who studied this problem. The solution to this paradox helped scientists understand that the universe is not eternal and unchanging, but dynamic and evolving.\n\nIn conclusion, the sky is dark at night because the universe has a limited age, light takes time to travel, and space is constantly expanding. Even though the universe is filled with stars, we can only see a small portion of them. The darkness of the night sky is not empty at all — it is evidence of the vast size and fascinating nature of the universe.",
+                category: "science",
+                icon: "🌌",
+                author: "Sarthak Nayyar",
+                date: "Jan 8, 2026"
+            },
+            {
+                id: 3,
+                title: "What Is Time Dilation? A Simple Explanation for Students",
+                excerpt: "Time is not the same for everyone. Discover how Einstein's theory of relativity changed our understanding of time and why astronauts age slower than people on Earth.",
+                content: "Time is something we all experience every day. We use clocks to measure it and we usually think that time moves at the same speed for everyone. One second for me is one second for you — or at least that's what we naturally believe. For a long time, scientists also believed that time was absolute and the same everywhere. But this idea changed in the early 20th century because of Albert Einstein.\n\nTime dilation is a concept that comes from Einstein's theory of relativity. In simple words, time dilation means that time does not pass at the same rate for everyone. The speed at which time flows depends on how fast a person is moving or how strong gravity is around them. This idea sounds strange at first, but it has been proven by experiments.\n\nOne easy way to understand time dilation is by imagining a very fast-moving object, like a spaceship. Suppose an astronaut travels in a spaceship that moves close to the speed of light, while another person stays on Earth. For the astronaut, time moves normally — their watch ticks one second at a time. But for the person on Earth, the astronaut's clock appears to move slower. When the astronaut returns, they would be younger than the person who stayed on Earth. This difference in time is called time dilation.\n\nTime dilation happens because the speed of light is constant for everyone. No matter how fast someone moves, the speed of light remains the same. To make this possible, time itself adjusts. When something moves very fast, time slows down for it compared to someone who is not moving as fast.\n\nThis effect is not just a theory. It is used in real life. GPS satellites, for example, experience time differently because they move fast and are far from Earth's gravity. Scientists must correct time dilation effects, otherwise GPS locations would become inaccurate.\n\nIn conclusion, time dilation shows that time is not absolute. It changes depending on motion and gravity. Even though we don't notice it in daily life, it becomes very important at high speeds and in space. This idea completely changed how scientists understand time and the universe.",
+                category: "science",
+                icon: "⏰",
+                author: "Sarthak Nayyar",
+                date: "Jan 7, 2026"
+            },
+            {
+                id: 4,
+                title: "Is the Universe Expanding Into Something?",
+                excerpt: "If the universe is expanding, what is it expanding into? The answer to this question is far stranger than you might expect.",
+                content: "When we hear that the universe is expanding, a natural question comes to mind: expanding into what? If everything is growing and moving away from each other, it feels logical to imagine the universe spreading into some empty space beyond it. But modern physics gives a very surprising answer to this question.\n\nTo understand this, we first need to clarify what scientists mean by an \"expanding universe.\" The expansion of the universe does not mean that galaxies are flying outward from a central point into empty space. Instead, it means that the space between galaxies is increasing. Imagine drawing dots on the surface of a balloon. As the balloon inflates, the dots move farther apart, even though they are not moving on the surface themselves. There is no center on the surface of the balloon — everything simply moves away from everything else.\n\nSimilarly, the universe does not need to expand into anything. Space itself is stretching. Galaxies remain mostly in the same locations, but the distance between them increases over time. This is why distant galaxies appear to be moving away from us, and the farther they are, the faster they seem to recede.\n\nOne of the strongest pieces of evidence for this expansion comes from the light we receive from distant galaxies. This light is stretched as it travels through expanding space, a phenomenon called redshift. The more stretched the light is, the farther away the galaxy is. This observation shows that space has been expanding for billions of years.\n\nSo, is there an \"outside\" of the universe? As far as current science tells us, there is no known edge or outside space that the universe is expanding into. The universe includes all of space itself. Asking what it is expanding into is similar to asking what lies north of the North Pole — the question sounds reasonable, but it does not apply within the structure of the system.\n\nThis idea can feel uncomfortable because our brains are used to thinking in terms of objects expanding into empty space. However, the universe does not behave like everyday objects. Space is not something that exists inside a larger container; it is the container itself.\n\nIn conclusion, the universe is expanding, but not into anything. Space itself is growing, stretching the distances between galaxies. While this concept is difficult to imagine, it is supported by strong observations and forms a key part of our understanding of the universe. The expansion of the universe reminds us that reality is often far stranger than our everyday intuition suggests.",
+                category: "science",
+                icon: "🌌",
+                author: "Sarthak Nayyar",
+                date: "Jan 6, 2026"
+            }
+        ];
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = posts.map(post => `
+                <article class="post-card">
+                    <div class="post-image">${post.icon}</div>
+                    <div class="post-content">
+                        <div class="post-meta">
+                            <span>📅 ${post.date}</span>
+                            <span>✍️ ${post.author}</span>
+                            <span>📂 ${post.category}</span>
+                        </div>
+                        <h2 class="post-title">${post.title}</h2>
+                        <p class="post-excerpt">${post.excerpt}</p>
+                        <button class="read-more" onclick="viewPost(${post.id})">
+                            Read Full Article
+                            <span>→</span>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function viewPost(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return;
+
+            document.getElementById('modalBody').innerHTML = `
+                <div class="post-image" style="font-size: 5rem;">${post.icon}</div>
+                <div class="post-meta" style="margin-bottom: 1.5rem;">
+                    <span>📅 ${post.date}</span>
+                    <span>✍️ ${post.author}</span>
+                    <span>📂 ${post.category}</span>
+                </div>
+                <h1 class="post-title">${post.title}</h1>
+                <div class="article-content">${post.content}</div>
+            `;
+            document.getElementById('postModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('postModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('postModal').addEventListener('click', (e) => {
+            if (e.target.id === 'postModal') closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        renderPosts();
+    </script>
+</body>
+</html>
